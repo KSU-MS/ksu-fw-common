@@ -7,6 +7,12 @@
 
 #include <Arduino.h>
 
+enum position {
+  EV,
+  IC,
+  Golfie,
+};
+
 class vNav {
 private:
   unsigned short calc_imu_crc(byte data[], uint16_t length); // check msg
@@ -79,12 +85,12 @@ public:
 
   // Some functions or something idk
   vNav(HardwareSerial &target_port) : serial_port(target_port){};
-  void init();
+  void init(position pos);
   void read_data();           // read nav data
   bool check_sync_byte(void); // check for new msg
 };
 
-void vNav::init() {
+void vNav::init(position pos) {
   // Wait for NAV UART to start
   Serial.println("Init NAV");
   serial_port.begin(230400);
@@ -96,12 +102,30 @@ void vNav::init() {
   // Baud rate
   serial_port.println("$VNWRG,5,230400,1*7049");
 
-  // Refrence frame offsets
-  serial_port.println("$VNWRG,26,+0.000000,+0.000000,-1.000000,+0.000000,-1."
-                      "000000,+0.000000,-1.000000,+0.000000,+0.000000*20A7");
-
-  // GPS antenna offset
-  serial_port.println("$VNWRG,57,+0.798,-0.127,-0.495*5546");
+  switch (pos) {
+  case EV:
+    // Refrence frame offset
+    serial_port.println("$VNWRG,26,+0.000000,+0.000000,-1.000000,+0.000000,-1."
+                        "000000,+0.000000,-1.000000,+0.000000,+0.000000*20A7");
+    // GPS antenna offset
+    serial_port.println("$VNWRG,57,+0.798,-0.127,-0.495*5546");
+    break;
+  case IC:
+    serial_port.println("$VNWRG,26,+1.000000,+0.000000,+0.000000,+0.000000,+1."
+                        "000000,+0.000000,+0.000000,+0.000000,+1.000000*C622");
+    serial_port.println("$VNWRG,57,0.9017,-0.3048,-0.3302*9FF5");
+    break;
+  case Golfie:
+    serial_port.println("$VNWRG,26,+1.000000,+0.000000,+0.000000,+0.000000,+1."
+                        "000000,+0.000000,+0.000000,+0.000000,+1.000000*C622");
+    serial_port.println("$VNWRG,57,-.2,+0.000,-1.5*103C");
+    break;
+  default:
+    serial_port.println("$VNWRG,26,+1.000000,+0.000000,+0.000000,+0.000000,+1."
+                        "000000,+0.000000,+0.000000,+0.000000,+1.000000*C622");
+    serial_port.println("$VNWRG,57,+0.000,+0.000,+0.000*E341");
+    break;
+  };
 
   // This sets what feilds you want and at what rate for the first bin output
   serial_port.println("$VNWRG,75,1,40,01,1042*23E6");
