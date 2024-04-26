@@ -7,7 +7,6 @@
 
 #include <Arduino.h>
 
-// Custom struct for reading shit from
 class vNav {
 private:
   unsigned short calc_imu_crc(byte data[], uint16_t length); // check msg
