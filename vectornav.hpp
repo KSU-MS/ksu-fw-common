@@ -1,5 +1,5 @@
-#ifndef nav
-#define nav
+#ifndef vectornav
+#define vectornav
 
 // Union functions for byte to usable fucking data conversions
 // IMU sends data as bytes in reverse order, the union functions are used to
@@ -11,6 +11,7 @@ enum position {
   EV,
   IC,
   Golfie,
+  Logger,
 };
 
 class vNav {
