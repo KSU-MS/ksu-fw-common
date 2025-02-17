@@ -1,5 +1,4 @@
-#ifndef KSUCAN_HPP
-#define KSUCAN_HPP
+#pragma once
 
 //
 //// VCU IDs
@@ -86,5 +85,3 @@
 #define ID_NAV_GYRO 0X1F6
 #define ID_NAV_VELOCITY 0X1F8
 #define ID_NAV_ACCEL 0X1F9
-
-#endif
