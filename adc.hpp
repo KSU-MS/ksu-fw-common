@@ -75,7 +75,7 @@ public:
     byte b[2];
   } value;
 
-  void setup(adc_method guy, uint8_t target_pin) {
+  adc(adc_method guy, uint8_t target_pin) {
     pin = target_pin;
 
     switch (guy) {
@@ -91,7 +91,7 @@ public:
   }
 
   // Added an overload for when the MCP is on another CS pin
-  void setup(adc_method guy, uint8_t cs_pin, uint8_t target_pin) {
+  adc(adc_method guy, uint8_t cs_pin, uint8_t target_pin) {
     pin = target_pin;
 #ifndef ADC_CS
     ADC_CS = cs_pin;
