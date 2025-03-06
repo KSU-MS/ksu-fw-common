@@ -6,6 +6,10 @@
 uint8_t ADC_CS = 10; // Typical default SPI CS pin
 #endif
 
+#ifndef DEFAULT_SPI_SPEED
+#define DEFAULT_SPI_SPEED 1000000
+#endif
+
 #ifdef ARDUINO
 #include <Arduino.h>
 #include <SPI.h>
