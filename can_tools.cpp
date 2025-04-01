@@ -26,7 +26,7 @@ canMan::canMan(can_controller target_can_controller, int target_baud) {
 }
 
 // TODO: This makes me cry but template functions here make me want to die so
-#ifdef TEENSYDUINO
+#if defined(__IMXRT1062__)
 FlexCAN_T4<CAN1, RX_SIZE_1024, TX_SIZE_1024> flexcan_1;
 FlexCAN_T4<CAN2, RX_SIZE_1024, TX_SIZE_1024> flexcan_2;
 FlexCAN_T4<CAN3, RX_SIZE_1024, TX_SIZE_1024> flexcan_3;
