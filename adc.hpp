@@ -97,9 +97,7 @@ public:
   // Added an overload for when the MCP is on another CS pin
   adc(adc_method guy, uint8_t cs_pin, uint8_t target_pin) {
     pin = target_pin;
-#ifndef ADC_CS
     ADC_CS = cs_pin;
-#endif
 
     switch (guy) {
     case avr:
