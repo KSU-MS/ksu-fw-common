@@ -71,7 +71,7 @@ private:
   uint16_t (*reader)(uint8_t);
   uint16_t rawval;
   double alpha;
-  bool is_filtered;
+  bool is_filtered = false;
 
 public:
   union {
