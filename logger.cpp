@@ -2,13 +2,16 @@
 
 Logger::Logger(logger_type target_logger) {
   switch (target_logger) {
+#ifdef ARDUINO
   case serial:
     init_serial_port();
 
     this->print = serial_print;
     // this->printf = serial_printf;
     break;
+#endif
 
+#ifdef ARDUINO_TEENSY41
   case teensy_microsd_numbered_log:
     init_microsd_log(false);
 
@@ -20,6 +23,7 @@ Logger::Logger(logger_type target_logger) {
 
     this->print = sd_print;
     break;
+#endif
   }
 }
 
