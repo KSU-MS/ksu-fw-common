@@ -73,16 +73,9 @@ private:
   double alpha;
   bool is_filtered = false;
 
-public:
-  union {
-    uint16_t in;
-    byte b[2];
-  } value;
-
-  adc(adc_method guy, uint8_t target_pin) {
-    pin = target_pin;
-
+  void set_helpers(adc_method guy) {
     switch (guy) {
+#ifdef ARDUINO
     case avr:
       reader = &avr_helper;
       break;
@@ -91,24 +84,44 @@ public:
       init_mcp();
       reader = &mcp_helper;
       break;
+#endif // ARDUINO
+
+    default:
+      break;
     }
+  };
+
+public:
+  union {
+    uint16_t in;
+    uint8_t b[2];
+  } value;
+
+  adc(adc_method guy, uint8_t target_pin) {
+    pin = target_pin;
+    set_helpers(guy);
   }
 
   // Added an overload for when the MCP is on another CS pin
   adc(adc_method guy, uint8_t cs_pin, uint8_t target_pin) {
     pin = target_pin;
     ADC_CS = cs_pin;
+    set_helpers(guy);
+  }
 
-    switch (guy) {
-    case avr:
-      reader = &avr_helper;
-      break;
+  adc(adc_method guy, uint8_t target_pin, double alpha) {
+    pin = target_pin;
+    this->alpha = alpha;
+    is_filtered = true;
+    set_helpers(guy);
+  }
 
-    case mcp:
-      init_mcp();
-      reader = &mcp_helper;
-      break;
-    }
+  adc(adc_method guy, uint8_t cs_pin, uint8_t target_pin, double alpha) {
+    pin = target_pin;
+    ADC_CS = cs_pin;
+    this->alpha = alpha;
+    is_filtered = true;
+    set_helpers(guy);
   }
 
   void update() {
