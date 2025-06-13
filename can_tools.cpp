@@ -20,7 +20,7 @@ canMan::canMan(can_controller target_can_controller, int target_baud) {
     init_flexcan_3(target_baud);
 
     this->controller_has_new_msg = flexcan_3_has_new_msg;
-    this->send_controller_new_msg = flexcan_2_send_msg;
+    this->send_controller_new_msg = flexcan_3_send_msg;
     break;
   }
 }
