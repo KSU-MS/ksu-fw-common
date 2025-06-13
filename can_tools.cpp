@@ -52,6 +52,7 @@ bool flexcan_1_has_new_msg(can_message *message_out) {
   if (flexcan_1.read(msg1)) {
     message_out->id = msg1.id;
     message_out->length = msg1.len;
+    message_out->is_extended = msg1.flags.extended;
 
     if (msg1.len <= 8)
       memcpy(message_out->buf.byte, msg1.buf, msg1.len);
@@ -65,6 +66,7 @@ bool flexcan_2_has_new_msg(can_message *message_out) {
   if (flexcan_2.read(msg2)) {
     message_out->id = msg2.id;
     message_out->length = msg2.len;
+    message_out->is_extended = msg2.flags.extended;
 
     if (msg2.len <= 8)
       memcpy(message_out->buf.byte, msg2.buf, msg2.len);
@@ -78,6 +80,7 @@ bool flexcan_3_has_new_msg(can_message *message_out) {
   if (flexcan_3.read(msg3)) {
     message_out->id = msg3.id;
     message_out->length = msg3.len;
+    message_out->is_extended = msg3.flags.extended;
 
     if (msg3.len <= 8)
       memcpy(message_out->buf.byte, msg3.buf, msg3.len);
@@ -91,6 +94,7 @@ bool flexcan_3_has_new_msg(can_message *message_out) {
 void flexcan_1_send_msg(can_message *message_out) {
   msg1.id = message_out->id;
   msg1.len = message_out->length;
+  msg1.flags.extended = message_out->is_extended;
   memcpy(msg1.buf, message_out->buf.byte, message_out->length);
 
   flexcan_1.write(msg1);
@@ -98,6 +102,7 @@ void flexcan_1_send_msg(can_message *message_out) {
 void flexcan_2_send_msg(can_message *message_out) {
   msg2.id = message_out->id;
   msg2.len = message_out->length;
+  msg2.flags.extended = message_out->is_extended;
   memcpy(msg2.buf, message_out->buf.byte, message_out->length);
 
   flexcan_2.write(msg2);
@@ -105,6 +110,7 @@ void flexcan_2_send_msg(can_message *message_out) {
 void flexcan_3_send_msg(can_message *message_out) {
   msg3.id = message_out->id;
   msg3.len = message_out->length;
+  msg3.flags.extended = message_out->is_extended;
   memcpy(msg3.buf, message_out->buf.byte, message_out->length);
 
   flexcan_3.write(msg3);

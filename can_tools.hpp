@@ -6,12 +6,13 @@ enum can_controller { TEENSY_CAN1 = 0, TEENSY_CAN2 = 1, TEENSY_CAN3 = 2 };
 
 // TODO: Maybe add more of the CAN message settings to this fella
 struct can_message {
-  uint16_t id;
-  uint8_t length;
+  uint32_t id = 0;
+  uint8_t length = 8;
   union {
     uint8_t byte[8];
-    uint64_t val;
+    uint64_t val = 0;
   } buf;
+  bool is_extended = false;
 };
 
 // TODO: Make this a template function type beat
