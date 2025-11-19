@@ -24,7 +24,8 @@ private:
   can_message controller_message;
 
 public:
-  canMan(can_controller target_controller, int target_baud, void *on_receive);
+  canMan(can_controller target_controller, int target_baud,
+         void (*on_receive)());
 
   inline bool check_controller_message() {
     return this->controller_has_new_msg(&controller_message);
