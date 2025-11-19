@@ -24,7 +24,7 @@ private:
   can_message controller_message;
 
 public:
-  canMan(can_controller target_controller, int target_baud);
+  canMan(can_controller target_controller, int target_baud, void *on_receive);
 
   inline bool check_controller_message() {
     return this->controller_has_new_msg(&controller_message);
@@ -42,7 +42,6 @@ public:
 // TODO: Sadge
 #if defined(__IMXRT1062__)
 #include <FlexCAN_T4.h>
-#endif
 
 void init_flexcan_1(int target_baud);
 void init_flexcan_2(int target_baud);
@@ -55,3 +54,4 @@ bool flexcan_3_has_new_msg(can_message *message_out);
 void flexcan_1_send_msg(can_message *message_out);
 void flexcan_2_send_msg(can_message *message_out);
 void flexcan_3_send_msg(can_message *message_out);
+#endif
